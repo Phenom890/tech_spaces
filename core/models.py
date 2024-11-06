@@ -43,8 +43,8 @@ class Answer(models.Model):
     body = models.TextField()
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
-    up_votes = models.PositiveIntegerField(default=1)
-    down_votes = models.PositiveIntegerField(default=1)
+    up_votes = models.PositiveIntegerField(default=0)
+    down_votes = models.PositiveIntegerField(default=0)
 
     class Meta:
         ordering = ["-up_votes", "-created"]

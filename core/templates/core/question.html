@@ -137,17 +137,21 @@
 
         <!--   Start -->
         <div class="participants">
-          <h3 class="participants__top">Participants <span>(5.3k Joined)</span></h3>
+          <h3 class="participants__top">Contributors <span>({{ question.contributors.all.count }}) </span></h3>
           <div class="participants__list scroll">
+          
+          {% for student in contributors %}
             <a href="profile.html" class="participant">
               <div class="avatar avatar--medium">
                 <img src="https://randomuser.me/api/portraits/men/37.jpg" />
               </div>
               <p>
-                Dennis Ivy
-                <span>@dennis_ivy</span>
+                {{ student.name }}
+                <span>@{{ student.username }}</span>
               </p>
             </a>
+          {% endfor %}
+            
           </div>
         </div>
         <!--  End -->

@@ -1,10 +1,10 @@
- <div class="topics">
+<div class="topics">
             <div class="topics__header">
                 <h2>Browse Courses</h2>
             </div>
             <ul class="topics__list">
                 <li>
-                    <a href="/" class="active">All <span>553</span></a>
+                    <a href="/" class="active">All <span>{{ question_count }}</span></a>
                 </li>
                 
                 {% for course in courses %}

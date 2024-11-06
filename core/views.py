@@ -1,11 +1,14 @@
+from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
 from .forms import AskQuestionForm
-from .models import Question, Course
-from django.contrib import messages
+from .models import Question, Course, Answer
 
+
+# TODO: add the upvote and downvote buttons to the answers
+# TODO: add the upvote and downvote functionality to the answers
 
 def index(request):
     courses = Course.objects.filter()
@@ -17,10 +20,17 @@ def index(request):
         Q(student__username__icontains=query) |
         Q(description__icontains=query)
     )
+    question_count = Question.objects.all().count()
+
+    # FIXME:fix this code to display the acitvities for all quesitons not only those selected
+    #  from the course component
+    answers = Answer.objects.filter(question__course__name__icontains=query)
 
     context = {
         'query_questions': questions,
         'courses': courses,
+        'question_answers': answers,
+        'question_count': question_count,
     }
     return render(request, 'core/index.html', context)
 
@@ -29,23 +39,29 @@ class GetQuestionView(View):
     def get(self, request, pk):
         question = get_object_or_404(Question, id=pk)
         answers = question.answer_set.all()
+        students = question.contributors.all()
         context = {
             'question': question,
             'answers': answers,
+            'contributors': students,
         }
         return render(request, 'core/question.html', context)
 
     def post(self, request, pk):
         question = get_object_or_404(Question, id=pk)
         answers = question.answer_set.all()
+        students = question.contributors.all()
         answer_body = request.POST.get('answer_body')
         question.answer_set.create(
             student=request.user,
             body=answer_body
         )
+        question.contributors.add(request.user)
+        question.save()
         context = {
             'question': question,
             'answers': answers,
+            'contributors': students,
         }
         return render(request, 'core/question.html', context)
 
