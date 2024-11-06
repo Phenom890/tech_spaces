@@ -1,14 +1,84 @@
-from django.shortcuts import render
+from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views import View
 
+from .forms import AskQuestionForm
 from .models import Question, Course
+from django.contrib import messages
 
 
 def index(request):
-    questions = Question.objects.all()
-    courses = Course.objects.all()
-    
+    courses = Course.objects.filter()
+    query = request.GET.get('query') if request.GET.get('query') else ""
+
+    questions = Question.objects.filter(
+        Q(course__name__icontains=query) |
+        Q(name__icontains=query) |
+        Q(student__username__icontains=query) |
+        Q(description__icontains=query)
+    )
+
     context = {
         'query_questions': questions,
         'courses': courses,
     }
     return render(request, 'core/index.html', context)
+
+
+class GetQuestionView(View):
+    def get(self, request, pk):
+        question = get_object_or_404(Question, id=pk)
+        answers = question.answer_set.all()
+        context = {
+            'question': question,
+            'answers': answers,
+        }
+        return render(request, 'core/question.html', context)
+
+    def post(self, request, pk):
+        question = get_object_or_404(Question, id=pk)
+        answers = question.answer_set.all()
+        answer_body = request.POST.get('answer_body')
+        question.answer_set.create(
+            student=request.user,
+            body=answer_body
+        )
+        context = {
+            'question': question,
+            'answers': answers,
+        }
+        return render(request, 'core/question.html', context)
+
+
+class AskQuestion(View):
+    def get(self, request):
+        form = AskQuestionForm()
+        courses = Course.objects.filter()
+        context = {
+            'form': form,
+            'courses': courses,
+        }
+        return render(request, 'core/ask_question.html', context)
+
+    def post(self, request):
+        form = AskQuestionForm(request.POST or None)
+
+        if form.is_valid():
+            courses = Course.objects.filter()
+            course_name = request.POST.get('course')
+            course, created = Course.objects.get_or_create(name=course_name)
+            name = form.cleaned_data.get('name')
+            description = form.cleaned_data.get('description')
+
+            question = Question()
+            question.name = name
+            question.course = course
+            question.description = description
+            question.student = request.user
+            question.save()
+            question.contributors.add(request.user)
+            question.save()
+
+            messages.success(request, 'Question Asked Successfully!')
+            return redirect('home')
+        messages.error(request, 'Check the fields and fill them correctly!')

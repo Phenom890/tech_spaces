@@ -10,7 +10,8 @@
                 {% for course in courses %}
                     
                     <li>
-                        <a href="#">{{ course.name }} <span>232</span></a>
+                        <a href="{% url 'home' %}?query={{ course.name }}">{{ course }} <span>
+                        {{ course.question_set.all.count }}</span></a>
                     </li>
 
                 {% endfor %}

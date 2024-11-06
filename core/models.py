@@ -38,7 +38,7 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     body = models.TextField()
     updated = models.DateTimeField(auto_now=True)
