@@ -9,6 +9,8 @@ from .models import Question, Course, Answer
 
 # TODO: add the upvote and downvote buttons to the answers
 # TODO: add the upvote and downvote functionality to the answers
+# TODO: add the error details in forms for clarification
+
 
 def index(request):
     courses = Course.objects.filter()
