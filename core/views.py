@@ -26,7 +26,7 @@ def index(request):
 
     # FIXME:fix this code to display the acitvities for all quesitons not only those selected
     #  from the course component
-    answers = Answer.objects.filter(question__course__name__icontains=query)
+    answers = Answer.objects.filter(question__course__name__icontains=query).order_by('-created')
 
     context = {
         'query_questions': questions,
@@ -100,3 +100,18 @@ class AskQuestion(View):
             messages.success(request, 'Question Asked Successfully!')
             return redirect('home')
         messages.error(request, 'Check the fields and fill them correctly!')
+
+
+class DeleteQuestion(View):
+    def get(self, request, pk):
+        question = get_object_or_404(Question, id=pk)
+        context = {
+            'obj': question,
+        }
+        return render(request, 'core/delete.html', context)
+
+    def post(self, request, pk):
+        question = get_object_or_404(Question, id=pk)
+        question.delete()
+        messages.info(request, 'Question Removed Successful!')
+        return redirect('home')

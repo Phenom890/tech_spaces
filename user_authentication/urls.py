@@ -4,7 +4,6 @@ from django.urls import path
 
 from . import views
 from .forms import UserPasswordChangeForm
-
 urlpatterns = [
     path('sign-in/', LoginView.as_view(template_name='user_authentication/login.html'),
          name='login'),
@@ -12,6 +11,7 @@ urlpatterns = [
     path('register/', views.UserRegisterView.as_view(), name='register'),
 
     # Profile
+    path('<username>/profile/view/', views.ProfileView.as_view(), name='profile'),
     path('profile/update/', views.UpdateProfile.as_view(), name='update_profile'),
 
     # password change
@@ -24,3 +24,4 @@ urlpatterns = [
         template_name='user_authentication/change_password_done.html'),
          name='password_change_done'),
 ]
+

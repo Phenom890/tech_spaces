@@ -1,10 +1,13 @@
 from django.contrib import messages
 from django.contrib.auth.views import LogoutView
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 
+from core.models import User
 from .forms import UserRegisterForm, UserUpdateForm
 
+
+# TODO:fix the profile page
 
 class UserRegisterView(View):
     def get(self, request):
@@ -49,7 +52,7 @@ class UpdateProfile(View):
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile Updated Successfully!')
-            return redirect('home') #FIXME:change this redirect to user profile
+            return redirect('home')  # FIXME:change this redirect to user profile
         messages.error(request, 'Fill the forms correctly!')
 
         context = {
@@ -57,3 +60,11 @@ class UpdateProfile(View):
         }
         return render(request, 'user_authentication/profile_update.html', context)
 
+
+class ProfileView(View):
+    def get(self, request, username):
+        get_user = get_object_or_404(User, username=username)
+        context = {
+            'user': get_user,
+        }
+        return render(request, 'user_authentication/profile.html', context)
