@@ -1,21 +1,26 @@
 {% extends 'core/base.html' %}
     
+
+{% block title %}
+    Home
+{% endblock title %}
+    
+
     {% block content %}    
         <main class="layout layout--3">
-        <div class="container">
-            <!-- Topics Start -->
-           {% include 'core/_topics.html' %}
-            <!-- Topics End -->
+            <div class="container">
+                <!-- Topics Start -->
+                {% include 'core/_topics.html' %}
+                <!-- Topics End -->
 
-            <!-- Room List Start -->
-            {% include 'core/_questions.html' %}
-            <!-- Room List End -->
+                <!-- Room List Start -->
+                {% include 'core/_questions.html' %}
+                <!-- Room List End -->
 
-            <!-- Activities Start -->
-            {% include 'core/_activities.html' %}
-            <!-- Activities End -->
-        </div>
+                <!-- Activities Start -->
+                {% include 'core/_activities.html' %}
+                <!-- Activities End -->
+            </div>
         </main>
 
 {% endblock content %}
-  

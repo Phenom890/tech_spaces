@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
@@ -52,7 +53,7 @@ class UpdateProfile(View):
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile Updated Successfully!')
-            return redirect('home')  # FIXME:change this redirect to user profile
+            return redirect('profile', username=request.user.username)
         messages.error(request, 'Fill the forms correctly!')
 
         context = {
@@ -64,7 +65,11 @@ class UpdateProfile(View):
 class ProfileView(View):
     def get(self, request, username):
         get_user = get_object_or_404(User, username=username)
+        user_answers = get_user.answer_set.all()
+        user_questions = get_user.question_set.all()
         context = {
             'user': get_user,
+            'query_questions': user_questions,
+            'student_answers': user_answers,
         }
         return render(request, 'user_authentication/profile.html', context)

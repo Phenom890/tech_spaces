@@ -115,3 +115,17 @@ class DeleteQuestion(View):
         question.delete()
         messages.info(request, 'Question Removed Successful!')
         return redirect('home')
+
+
+class DeleteAnswer(View):
+    def get(self, request, pk):
+        get_answer = get_object_or_404(Answer, id=pk)
+        context = {
+            'obj': get_answer,
+        }
+        return render(request, 'core/delete.html', context)
+
+    def post(self, request, pk):
+        get_answer = get_object_or_404(Answer, id=pk)
+        get_answer.delete()
+        return redirect('home')
