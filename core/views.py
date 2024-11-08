@@ -9,32 +9,35 @@ from .models import Question, Course, Answer
 
 # TODO: add the upvote and downvote buttons to the answers
 # TODO: add the upvote and downvote functionality to the answers
+# TODO:add bootstrap css and js to the project
 # TODO: add the error details in forms for clarification
 
 
-def index(request):
-    courses = Course.objects.filter()
-    query = request.GET.get('query') if request.GET.get('query') else ""
+class Index(View):
+    def get(self, request):
+        courses = Course.objects.filter()
+        query = request.GET.get('query') if request.GET.get('query') else ""
 
-    questions = Question.objects.filter(
-        Q(course__name__icontains=query) |
-        Q(name__icontains=query) |
-        Q(student__username__icontains=query) |
-        Q(description__icontains=query)
-    )
-    question_count = Question.objects.all().count()
+        questions = Question.objects.filter(
+            Q(course__name__icontains=query) |
+            Q(name__icontains=query) |
+            Q(student__username__icontains=query) |
+            Q(description__icontains=query)
+        )
+        question_count = Question.objects.all().count()
 
-    # FIXME:fix this code to display the acitvities for all quesitons not only those selected
-    #  from the course component
-    answers = Answer.objects.filter(question__course__name__icontains=query).order_by('-created')
+        # FIXME:fix this code to display the acitvities for all quesitons not only those selected
+        #  from the course component
+        answers = Answer.objects.filter(question__course__name__icontains=query).order_by(
+            '-created')
 
-    context = {
-        'query_questions': questions,
-        'courses': courses,
-        'question_answers': answers,
-        'question_count': question_count,
-    }
-    return render(request, 'core/index.html', context)
+        context = {
+            'query_questions': questions,
+            'courses': courses,
+            'question_answers': answers,
+            'question_count': question_count,
+        }
+        return render(request, 'core/index.html', context)
 
 
 class GetQuestionView(View):
