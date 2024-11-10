@@ -120,7 +120,9 @@ class UpdateQuestion(View):
         form = AskQuestionForm(request.POST or None, instance=curr_question)
         if form.is_valid():
             update_question = form.save(commit=False)
-            update_question.course = request.POST.get('course')
+            course_name = request.POST.get('course')
+            question_course, created = Course.objects.get_or_create(name=course_name)
+            update_question.course = question_course
             update_question.save()
             messages.success(request, 'Question Updated Successfully!')
             return redirect('get_question', pk=curr_question.id)
