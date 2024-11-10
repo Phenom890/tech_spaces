@@ -28,7 +28,7 @@
             
             {% if request.user == question.student %}
               <div class="room__topRight">
-                <a href="#">
+                <a href="{% url 'update_question' question.id %}">
                   <svg
                     enable-background="new 0 0 24 24"
                     height="32"

@@ -105,6 +105,28 @@ class AskQuestion(View):
         messages.error(request, 'Check the fields and fill them correctly!')
 
 
+class UpdateQuestion(View):
+    def get(self, request, pk):
+        curr_question = get_object_or_404(Question, id=pk)
+        form = AskQuestionForm(instance=curr_question)
+        context = {
+            'question': curr_question,
+            'form': form,
+        }
+        return render(request, 'core/update_question.html', context)
+
+    def post(self, request, pk):
+        curr_question = get_object_or_404(Question, id=pk)
+        form = AskQuestionForm(request.POST or None, instance=curr_question)
+        if form.is_valid():
+            update_question = form.save(commit=False)
+            update_question.course = request.POST.get('course')
+            update_question.save()
+            messages.success(request, 'Question Updated Successfully!')
+            return redirect('get_question', pk=curr_question.id)
+        return redirect('update_question', pk=curr_question.id)
+
+
 class DeleteQuestion(View):
     def get(self, request, pk):
         question = get_object_or_404(Question, id=pk)
