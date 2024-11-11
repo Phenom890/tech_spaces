@@ -1,6 +1,10 @@
 from django import forms
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import (
+    PasswordChangeForm,
+    UserCreationForm,
+    PasswordResetForm,
+    SetPasswordForm
+)
 
 from core.models import User
 
@@ -39,3 +43,18 @@ class UserPasswordChangeForm(PasswordChangeForm):
             attrs={"autocomplete": "current-password", "autofocus": True}
         ),
     )
+
+
+class UserPasswordResetForm(PasswordResetForm):
+    email = forms.CharField(label='Email', max_length=200, widget=forms.EmailInput())
+
+
+class UserPasswordConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(label='New Password', max_length=200,
+                                    widget=forms.PasswordInput(attrs={
+                                        'auto-complete': 'current-password'
+                                    }))
+    new_password2 = forms.CharField(label='Confirm New Password', max_length=200,
+                                    widget=forms.PasswordInput(attrs={
+                                        'auto-complete': 'current-password'
+                                    }))
