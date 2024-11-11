@@ -156,3 +156,19 @@ class DeleteAnswer(View):
         get_answer = get_object_or_404(Answer, id=pk)
         get_answer.delete()
         return redirect('home')
+
+
+class UpVote(View):
+    def get(self, request, pk):
+        answer = get_object_or_404(Answer, id=pk)
+        answer.up_votes += 1
+        answer.save()
+        return redirect('get_question', pk=answer.question.id)
+
+
+class DownVote(View):
+    def get(self, request, pk):
+        answer = get_object_or_404(Answer, id=pk)
+        answer.down_votes += 1
+        answer.save()
+        return redirect('get_question', pk=answer.question.id)
