@@ -8,9 +8,8 @@ from .forms import AskQuestionForm
 from .models import Question, Course, Answer
 
 
-# TODO:add bootstrap css and js to the project
-# TODO: add the error details in forms for clarification
 # TODO: add view for all the courses and recent activities
+# TODO: add font awesome to the site
 
 class Index(View):
     def get(self, request):
@@ -125,6 +124,7 @@ class UpdateQuestion(LoginRequiredMixin, View):
             update_question.save()
             messages.success(request, 'Question Updated Successfully!')
             return redirect('get_question', pk=curr_question.id)
+        messages.error(request, 'Check form and fill it correctly!!')
         return redirect('update_question', pk=curr_question.id)
 
 

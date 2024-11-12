@@ -52,7 +52,6 @@ class UpdateProfile(LoginRequiredMixin, View):
             form.save()
             messages.success(request, 'Profile Updated Successfully!')
             return redirect('profile', username=request.user.username)
-        messages.error(request, 'Fill the forms correctly!')
 
         context = {
             'form': form,

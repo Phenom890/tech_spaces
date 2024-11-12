@@ -1,5 +1,11 @@
 {% extends 'core/base.html' %}
 
+
+{% block title %}
+  Register
+{% endblock title %}
+  
+
 {% block content %}
   
     <main class="auth layout">
@@ -12,7 +18,15 @@
           </div>
           <div class="layout__body">
             <h2 class="auth__tagline">Register</h2>
-
+            {% if messages %}
+      
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                      {{ message}}
+                    </div>
+                {% endfor %}
+        
+            {% endif %}
             <form class="form" method='post'>
                 {% csrf_token %}
             
@@ -20,6 +34,7 @@
                     <div class="form__group form__group">
                         <label for="{{ field.label }}">{{ field.label }}</label>
                         {{ field }}
+                        <small class="text-danger">{{ field.errors | striptags }}</small>
                     </div>
                 {% endfor %}
                 

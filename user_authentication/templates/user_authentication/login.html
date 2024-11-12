@@ -18,8 +18,16 @@
           </div>
           <div class="layout__body">
             <h2 class="auth__tagline">Sign In </h2>
-
-            <form class="form" action="" method='post'>
+            {% if messages %}
+      
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                      {{ message}}
+                    </div>
+                {% endfor %}
+        
+            {% endif %}
+            <form class="form" method='post'>
               {% csrf_token %}
               <div class="form__group form__group">
                 <label for="room_name">Username</label>
