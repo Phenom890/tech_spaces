@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
@@ -7,11 +8,9 @@ from .forms import AskQuestionForm
 from .models import Question, Course, Answer
 
 
-# TODO: add the upvote and downvote buttons to the answers
-# TODO: add the upvote and downvote functionality to the answers
 # TODO:add bootstrap css and js to the project
 # TODO: add the error details in forms for clarification
-
+# TODO: add view for all the courses and recent activities
 
 class Index(View):
     def get(self, request):
@@ -40,7 +39,7 @@ class Index(View):
         return render(request, 'core/index.html', context)
 
 
-class GetQuestionView(View):
+class GetQuestionView(LoginRequiredMixin, View):
     def get(self, request, pk):
         question = get_object_or_404(Question, id=pk)
         answers = question.answer_set.all()
@@ -71,7 +70,7 @@ class GetQuestionView(View):
         return render(request, 'core/question.html', context)
 
 
-class AskQuestion(View):
+class AskQuestion(LoginRequiredMixin, View):
     def get(self, request):
         form = AskQuestionForm()
         courses = Course.objects.filter()
@@ -105,7 +104,7 @@ class AskQuestion(View):
         messages.error(request, 'Check the fields and fill them correctly!')
 
 
-class UpdateQuestion(View):
+class UpdateQuestion(LoginRequiredMixin, View):
     def get(self, request, pk):
         curr_question = get_object_or_404(Question, id=pk)
         form = AskQuestionForm(instance=curr_question)
@@ -129,7 +128,7 @@ class UpdateQuestion(View):
         return redirect('update_question', pk=curr_question.id)
 
 
-class DeleteQuestion(View):
+class DeleteQuestion(LoginRequiredMixin, View):
     def get(self, request, pk):
         question = get_object_or_404(Question, id=pk)
         context = {
@@ -144,7 +143,7 @@ class DeleteQuestion(View):
         return redirect('home')
 
 
-class DeleteAnswer(View):
+class DeleteAnswer(LoginRequiredMixin, View):
     def get(self, request, pk):
         get_answer = get_object_or_404(Answer, id=pk)
         context = {
@@ -158,7 +157,7 @@ class DeleteAnswer(View):
         return redirect('home')
 
 
-class UpVote(View):
+class UpVote(LoginRequiredMixin, View):
     def get(self, request, pk):
         answer = get_object_or_404(Answer, id=pk)
         answer.up_votes += 1
@@ -166,7 +165,7 @@ class UpVote(View):
         return redirect('get_question', pk=answer.question.id)
 
 
-class DownVote(View):
+class DownVote(LoginRequiredMixin, View):
     def get(self, request, pk):
         answer = get_object_or_404(Answer, id=pk)
         answer.down_votes += 1

@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
@@ -7,8 +7,6 @@ from django.views import View
 from core.models import User, Course, Question
 from .forms import UserRegisterForm, UserUpdateForm
 
-
-# TODO:fix the profile page
 
 class UserRegisterView(View):
     def get(self, request):
@@ -32,7 +30,7 @@ class UserRegisterView(View):
         return render(request, 'user_authentication/register.html', context)
 
 
-class UserLogoutView(View):
+class UserLogoutView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'user_authentication/logout.html')
 
@@ -40,7 +38,7 @@ class UserLogoutView(View):
         return LogoutView.as_view(next_page='login')(request)
 
 
-class UpdateProfile(View):
+class UpdateProfile(LoginRequiredMixin, View):
     def get(self, request):
         form = UserUpdateForm(instance=request.user)
         context = {
@@ -62,7 +60,7 @@ class UpdateProfile(View):
         return render(request, 'user_authentication/profile_update.html', context)
 
 
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin, View):
     def get(self, request, username):
         get_user = get_object_or_404(User, username=username)
         user_answers = get_user.answer_set.all()
