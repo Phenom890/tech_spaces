@@ -13,7 +13,7 @@ from .models import Question, Course, Answer
 
 class Index(View):
     def get(self, request):
-        courses = Course.objects.filter()
+        courses = Course.objects.filter()[:5]
         query = request.GET.get('query') if request.GET.get('query') else ""
 
         questions = Question.objects.filter(
@@ -171,3 +171,16 @@ class DownVote(LoginRequiredMixin, View):
         answer.down_votes += 1
         answer.save()
         return redirect('get_question', pk=answer.question.id)
+
+
+class AllCoursesView(View):
+    def get(self, request):
+        question_count = Question.objects.all().count()
+        query = request.GET.get('query') if request.GET.get('query') else ""
+        courses = Course.objects.filter(name=query)
+
+        context = {
+            'courses': courses,
+            'question_count': question_count,
+        }
+        return render(request, 'core/all_courses.html', context)
