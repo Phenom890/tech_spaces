@@ -118,8 +118,8 @@
                       <span class="thread__date">{{ answer.created | timesince }} ago
                       </span>
                       <div>
-                      <a href="{% url 'up_vote' answer.id %}">up_vote({{ answer.up_votes }})</a>
-                      <a href="{% url 'down_vote' answer.id %}">down_vote({{ answer.down_votes }})</a>
+                      <a href="{% url 'up_vote' answer.id %}">({{ answer.up_votes }})<i class="fas fa-thumbs-up me-4"></i></a>
+                      <a href="{% url 'down_vote' answer.id %}"><i class="fas fa-thumbs-down "></i>({{ answer.down_votes }})</a>
                       </div>
                     </div>
                     

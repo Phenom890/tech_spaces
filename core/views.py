@@ -177,7 +177,7 @@ class AllCoursesView(View):
     def get(self, request):
         question_count = Question.objects.all().count()
         query = request.GET.get('query') if request.GET.get('query') else ""
-        courses = Course.objects.filter(name=query)
+        courses = Course.objects.filter(name__icontains=query)
 
         context = {
             'courses': courses,

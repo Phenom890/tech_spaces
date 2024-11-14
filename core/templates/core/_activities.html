@@ -31,7 +31,7 @@
                 </div>
               </div>
               <div class="activities__boxContent">
-                <p>answered the question “<a href="room.html">{{ answer.question }}</a>”</p>
+                <p>answered the question “<a href="{% url 'get_question' answer.question.id %}">{{ answer.question }}</a>”</p>
                 <div class="activities__boxRoomContent">
                   {{ answer.body }}
                 </div>
