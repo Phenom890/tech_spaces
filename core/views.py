@@ -184,3 +184,7 @@ class AllCoursesView(View):
             'question_count': question_count,
         }
         return render(request, 'core/all_courses.html', context)
+
+class AllActivities(View):
+    def get(self, request):
+        
