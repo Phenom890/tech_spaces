@@ -185,6 +185,3 @@ class AllCoursesView(View):
         }
         return render(request, 'core/all_courses.html', context)
 
-class AllActivities(View):
-    def get(self, request):
-        
