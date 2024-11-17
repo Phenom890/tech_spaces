@@ -1,4 +1,4 @@
-This project is a result of a youtube tutorial(Studdy buddy) from Dennis Ivy.
+This project is a result of a youtube tutorial(Study buddy) from Dennis Ivy.
 I used his templates for the project and his idea but just extended it into something more like stack overflow or reddit, something like that.
 This is project is called Tech Spaces because I created it to serve as a space for Kwmame Nkrumah University of Science and Technology(KNUST) students ask questions and get the answers from their colleagues,
 the answers are voted by others just like Stack Overflow, so the answer with the most upvotes are top and vice versa.
