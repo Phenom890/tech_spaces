@@ -79,6 +79,7 @@ class AskQuestion(LoginRequiredMixin, View):
         }
         return render(request, 'core/ask_question.html', context)
 
+
     def post(self, request):
         form = AskQuestionForm(request.POST or None)
 
