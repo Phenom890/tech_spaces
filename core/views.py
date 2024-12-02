@@ -1,3 +1,4 @@
+from mailbox import Message
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
@@ -185,3 +186,12 @@ class AllCoursesView(View):
             'question_count': question_count,
         }
         return render(request, 'core/all_courses.html', context)
+
+
+class AllActivitiesView(View):
+    def get(self, request):
+        activities = Answer.objects.filter()
+        context = {
+            'question_answers': activities,
+        }
+        return render(request, 'core/all_activities.html', context)

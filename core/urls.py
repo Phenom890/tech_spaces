@@ -10,6 +10,7 @@ urlpatterns = [
     path('question/<int:pk>/delete/', views.DeleteQuestion.as_view(), name='delete_question'),
     path('answer/<int:pk>/delete/', views.DeleteAnswer.as_view(), name='delete_answer'),
     path('courses/all/', views.AllCoursesView.as_view(), name='all_courses'),
+    path('activities/all/', views.AllActivitiesView.as_view(), name='all_activities'),
 
     # votes
     path('answer/<int:pk>/up-vote/', views.UpVote.as_view(), name='up_vote'),
