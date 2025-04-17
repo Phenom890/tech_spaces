@@ -50,11 +50,15 @@ class UserPasswordResetForm(PasswordResetForm):
 
 
 class UserPasswordConfirmForm(SetPasswordForm):
-    new_password1 = forms.CharField(label='New Password', max_length=200,
-                                    widget=forms.PasswordInput(attrs={
-                                        'auto-complete': 'current-password'
-                                    }))
-    new_password2 = forms.CharField(label='Confirm New Password', max_length=200,
-                                    widget=forms.PasswordInput(attrs={
-                                        'auto-complete': 'current-password'
-                                    }))
+    new_password1 = forms.CharField(
+        label='New Password', max_length=200,
+        widget=forms.PasswordInput(
+            attrs={'auto-complete': 'current-password'}
+        ),
+    )
+    new_password2 = forms.CharField(
+        label='Confirm New Password', max_length=200,
+        widget=forms.PasswordInput(
+            attrs={'auto-complete': 'current-password'}
+        ),
+    )

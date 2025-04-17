@@ -62,8 +62,8 @@ class UpdateProfile(LoginRequiredMixin, View):
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request, username):
         get_user = get_object_or_404(User, username=username)
-        user_answers = get_user.answer_set.all()
-        user_questions = get_user.question_set.all()
+        user_answers = get_user.answer_set.all() # type: ignore
+        user_questions = get_user.question_set.all() # type: ignore
         courses = Course.objects.filter()
         question_count = Question.objects.all().count()
         context = {

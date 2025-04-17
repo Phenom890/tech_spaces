@@ -94,7 +94,7 @@ class AskQuestion(LoginRequiredMixin, View):
             description = form.cleaned_data.get('description')
 
             question = Question()
-            question.name = name
+            question.name = name # type: ignore
             question.course = course
             question.description = description
             question.student = request.user
@@ -127,9 +127,9 @@ class UpdateQuestion(LoginRequiredMixin, View):
             update_question.course = question_course
             update_question.save()
             messages.success(request, 'Question Updated Successfully!')
-            return redirect('get_question', pk=curr_question.id)
+            return redirect('get_question', pk=curr_question.id) # type: ignore
         messages.error(request, 'Check form and fill it correctly!!')
-        return redirect('update_question', pk=curr_question.id)
+        return redirect('update_question', pk=curr_question.id) # type: ignore
 
 
 class DeleteQuestion(LoginRequiredMixin, View):
@@ -166,7 +166,7 @@ class UpVote(LoginRequiredMixin, View):
         answer = get_object_or_404(Answer, id=pk)
         answer.up_votes += 1
         answer.save()
-        return redirect('get_question', pk=answer.question.id)
+        return redirect('get_question', pk=answer.question.id) # type: ignore
 
 
 class DownVote(LoginRequiredMixin, View):
@@ -174,7 +174,7 @@ class DownVote(LoginRequiredMixin, View):
         answer = get_object_or_404(Answer, id=pk)
         answer.down_votes += 1
         answer.save()
-        return redirect('get_question', pk=answer.question.id)
+        return redirect('get_question', pk=answer.question.id) # type: ignore
 
 
 class AllCoursesView(View):
