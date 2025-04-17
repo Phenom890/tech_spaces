@@ -44,7 +44,7 @@ class Index(View):
 class GetQuestionView(LoginRequiredMixin, View):
     def get(self, request, pk):
         question = get_object_or_404(Question, id=pk)
-        answers = question.answer_set.all()
+        answers = question.answer_set.all() # type: ignore
         students = question.contributors.all()
         context = {
             'question': question,
@@ -55,10 +55,10 @@ class GetQuestionView(LoginRequiredMixin, View):
 
     def post(self, request, pk):
         question = get_object_or_404(Question, id=pk)
-        answers = question.answer_set.all()
+        answers = question.answer_set.all() # type: ignore
         students = question.contributors.all()
         answer_body = request.POST.get('answer_body')
-        question.answer_set.create(
+        question.answer_set.create( # type: ignore
             student=request.user,
             body=answer_body
         )
