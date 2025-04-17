@@ -8,9 +8,6 @@ from django.views import View
 from .forms import AskQuestionForm
 from .models import Question, Course, Answer
 
-
-# TODO: add view for all the courses and recent activities
-# TODO: add font awesome to the site
 # TODO: make sure the same person can't vote twice
 
 
