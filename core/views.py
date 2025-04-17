@@ -24,8 +24,6 @@ class Index(View):
         )
         question_count = Question.objects.all().count()
 
-        # FIXME:fix this code to display the acitvities for all quesitons not only those selected
-        #  from the course component
         answers = Answer.objects.filter(question__course__name__icontains=query).order_by(
             '-created')
 
